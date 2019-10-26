@@ -5,9 +5,23 @@ JScheme: evaluating Scheme(R4RS) expressions from java
 
 # How to use?
 
+* Embed in Java
+
 ```
  Scheme  scheme = new Scheme();
  Object result = scheme.eval(new StringReader("(+ 1 (+ 2 3))"));
+```
+
+* REPL
+
+```
+$ java -jar jscheme.jar
+```
+
+* Graal Native Image
+
+```
+$ jscheme
 ```
 
 # Jscheme History
