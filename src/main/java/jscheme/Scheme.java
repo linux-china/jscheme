@@ -5,6 +5,8 @@
 package jscheme;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static jscheme.SchemeUtils.*;
 
@@ -20,6 +22,7 @@ public class Scheme {
     SchemeReader input = new SchemeReader(System.in);
     PrintWriter output = new PrintWriter(System.out, true);
     Environment globalEnvironment = new Environment();
+    public static List<Object> OUTPUT_PROCEDURES = Arrays.asList("display", "write", "write-char");
 
     public Scheme() {
         Primitive.installPrimitives(globalEnvironment);
@@ -61,7 +64,11 @@ public class Scheme {
                 output.print("\u03BB> ");
                 output.flush();
                 if (SchemeReader.isEOF(x = input.read())) return;
-                write(eval(x), output, true);
+                if (x instanceof Pair && OUTPUT_PROCEDURES.contains(((Pair) x).first)) {
+                    eval(x);
+                } else {
+                    write(eval(x), output, true);
+                }
                 output.println();
                 output.flush();
             } catch (RuntimeException ignore) {
