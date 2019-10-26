@@ -15,6 +15,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <graalvm.version>19.2.0.1</graalvm.version>
     </properties>
 
     <scm>
@@ -64,6 +65,35 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <parameters>true</parameters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>jscheme.Scheme</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.oracle.substratevm</groupId>
+                <artifactId>native-image-maven-plugin</artifactId>
+                <version>${graalvm.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle.substratevm</groupId>
+                        <artifactId>svm</artifactId>
+                        <version>${graalvm.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <mainClass>jscheme.Scheme</mainClass>
+                    <detail>true</detail>
+                    <imageName>jscheme</imageName>
                 </configuration>
             </plugin>
         </plugins>
